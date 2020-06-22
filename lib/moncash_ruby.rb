@@ -31,7 +31,8 @@ module Moncash
         req.headers['Content-Type'] = 'application/json'
         req.params = { scope: 'read,write', grant_type: 'client_credentials' }
       end
-      @token = response.body
+      repos = JSON.parse response.body
+      @token = repos['access_token']
     end
    end
   end
