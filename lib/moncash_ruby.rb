@@ -8,8 +8,10 @@ module Moncash
     attr_accessor :client_id, :secret_id
 
     @@token_endpoint = '/Api/oauth/token'
-    @base_url = 'live'
+    @@new_payment_endpoint = '/Api/v1/CreatePayment'
+    @base_url = ''
     @token = ''
+    @payment_repons = ''
 
     def initialize(client_id, secret_id)
       @client_id = client_id
@@ -34,5 +36,26 @@ module Moncash
       repos = JSON.parse response.body
       @token = repos['access_token']
     end
-   end
+
+    def create_payment(amount, order_id)
+      uri = URI.parse("https://#{@base_url}#{@@new_payment_endpoint}")
+      request = Net::HTTP::Post.new(uri)
+      request.content_type = 'application/json'
+      request['Accept'] = 'application/json'
+      request['Authorization'] = "Bearer #{@token}"
+      request.body = JSON.dump({
+                                 'amount' => amount,
+                                 'orderId' => order_id
+                               })
+
+      req_options = {
+        use_ssl: uri.scheme == 'https'
+      }
+
+      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+        http.request(request)
+      end
+      @payment_repons = JSON.parse response.body
+    end
   end
+end
