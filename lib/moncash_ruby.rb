@@ -56,5 +56,23 @@ module Moncash
       end
       @payment_repons = JSON.parse response.body
     end
+
+    def get_payment_detail(order_id, mode = 'sandbox')
+      create_token(mode)
+      uri = URI.parse("https://#{@base_url}#{@@get_payment_endpoint}")
+      request = Net::HTTP::Post.new(uri)
+      request.content_type = 'application/json'
+      request['Accept'] = 'application/json'
+      request['Authorization'] = "Bearer #{@token}"
+      request.body = "{ \" transactionId\": #{order_id}}"
+      req_options = {
+        use_ssl: uri.scheme == 'https'
+      }
+
+      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+        http.request(request)
+      end
+      JSON.parse response.body
+    end
   end
 end
