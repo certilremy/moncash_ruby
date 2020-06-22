@@ -37,7 +37,8 @@ module Moncash
       @token = repos['access_token']
     end
 
-    def create_payment(amount, order_id)
+    def create_payment(amount, order_id, mode = 'sanbox')
+      create_token(mode)
       uri = URI.parse("https://#{@base_url}#{@@new_payment_endpoint}")
       request = Net::HTTP::Post.new(uri)
       request.content_type = 'application/json'
