@@ -30,7 +30,7 @@ bundle install
 What you really need to make your first payment?
 
 [Click here to go to the moncash website](https://sandbox.moncashbutton.digicelgroup.com/Moncash-business/Login)   
-Create your free business account. If you stuck please take a look at this doc https://sandbox.moncashbutton.digicelgroup.com/Moncash-business/resources/doc/MC-Business.pdf 
+Create your free business account. If you get stuck please take a look at this doc https://sandbox.moncashbutton.digicelgroup.com/Moncash-business/resources/doc/MC-Business.pdf 
 
 Now you get your ``'client_id'``  and your ``'secret_id'``. Please the document below should help you on how to generate them do not ignore it, They are very important for our next step. You don't need to care about token expiration, Generate token, API endpoint, and token serialization. We handle them for you. Just complete the form and grab your ``'client_id'`` and ``'secret_id'``.
 
@@ -39,7 +39,7 @@ Enough make your first payment with 3 lines of code.
 ```
 require 'moncash_ruby'
 moncash = Moncash::Hit.new(your_client_id, your_secret_id)
-moncah.create_payment(amount, oder_id)
+moncash.create_payment(amount, oder_id)
 
 ```
 Yep that's it
@@ -64,7 +64,7 @@ moncah.create_payment(amount, oder_id, 'live')
 The ``sandbox`` is for testing Moncash in your project for development purpose only, remember when your project is live use the live argument.
 
 ## Contrubution
-If you want to contribute to this project your welcome fork this project and clone it.
+If you want to contribute to this project you're welcome fork this project and clone it.
 Then run 
 
 ```
@@ -72,7 +72,7 @@ Then run
 ```
 To start working you need to create a new branch from the dev branch. when your feature is available open your pull request compared to the dev branch again. 
 
-We have GitHub action already install, If your test pass we will merge your pull request. If it isn't please fix them and submit it again.
+We have GitHub action already installed, If your test pass we will merge your pull request. If it isn't please fix them and submit it again.
 
 ## Authors
 
