@@ -19,7 +19,7 @@ module Moncash
     end
 
     def create_token(mode)
-      if mode == 'sanbox'
+      if mode == 'sandbox'
         @base_url = 'sandbox.moncashbutton.digicelgroup.com'
       elsif mode == 'live'
         @base_url = 'moncashbutton.digicelgroup.com'
@@ -37,7 +37,7 @@ module Moncash
       @token = repos['access_token']
     end
 
-    def create_payment(amount, order_id, mode = 'sanbox')
+    def create_payment(amount, order_id, mode = 'sandbox')
       create_token(mode)
       uri = URI.parse("https://#{@base_url}#{@@new_payment_endpoint}")
       request = Net::HTTP::Post.new(uri)
