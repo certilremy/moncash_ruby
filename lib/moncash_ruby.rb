@@ -13,7 +13,7 @@ module Moncash
     @token = ''
     @payment_repons = ''
 
-    def initialize(client_id, secret_id)
+    def clieninitialize(client_id, secret_id)
       @client_id = client_id
       @secret_id = secret_id
     end
