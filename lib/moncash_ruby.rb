@@ -19,12 +19,16 @@ module Moncash
       @secret_id = secret_id
     end
 
-    def create_token(mode)
+    def setup_mode(mode)
       if mode == 'sandbox'
         @base_url = 'sandbox.moncashbutton.digicelgroup.com'
       elsif mode == 'live'
         @base_url = 'moncashbutton.digicelgroup.com'
       end
+    end
+
+    def create_token(mode)
+      setup_mode(mode)
       conn = Faraday.new(url: "https://#{client_id}:#{secret_id}@#{@base_url}") do |faraday|
         faraday.adapter Faraday.default_adapter
       end
@@ -66,11 +70,7 @@ module Moncash
 
     def get_payment_detail(transaction_id, mode = 'sandbox')
       create_token(mode)
-      if mode == 'sandbox'
-        @base_url = 'sandbox.moncashbutton.digicelgroup.com'
-      elsif mode == 'live'
-        @base_url = 'moncashbutton.digicelgroup.com'
-      end
+      setup_mode(mode)
       uri = URI.parse("https://#{@base_url}#{@@get_payment_endpoint}")
       request = Net::HTTP::Post.new(uri)
       request.content_type = 'application/json'
