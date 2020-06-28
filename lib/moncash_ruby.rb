@@ -13,8 +13,9 @@ module Moncash
     @token = ''
     @payment_repons = ''
     @gateway_base_url = ''
+    @@get_payment_endpoint = '/Api/v1/RetrieveTransactionPayment'
 
-    def clieninitialize(client_id, secret_id)
+    def initialize(client_id, secret_id)
       @client_id = client_id
       @secret_id = secret_id
     end
