@@ -12,6 +12,7 @@ module Moncash
     @base_url = ''
     @token = ''
     @payment_repons = ''
+    @gateway_base_url = ''
 
     def clieninitialize(client_id, secret_id)
       @client_id = client_id
@@ -39,6 +40,11 @@ module Moncash
 
     def create_payment(amount, order_id, mode = 'sandbox')
       create_token(mode)
+      if mode == 'sandbox'
+        @gateway_base_url = 'https://sandbox.moncashbutton.digicelgroup.com/Moncash-middleware'
+      elsif mode == 'live'
+        @gateway_base_url = 'https://moncashbutton.digicelgroup.com/Moncash-middleware'
+      end
       uri = URI.parse("https://#{@base_url}#{@@new_payment_endpoint}")
       request = Net::HTTP::Post.new(uri)
       request.content_type = 'application/json'
@@ -54,21 +60,28 @@ module Moncash
       response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
         http.request(request)
       end
-      @payment_repons = JSON.parse response.body
+      hash_repos = JSON.parse response.body
+      @payment_repons = "#{@gateway_base_url}/Payment/Redirect?token=#{hash_repos['payment_token']['token']}"
     end
 
-    def get_payment_detail(order_id, mode = 'sandbox')
+    def get_payment_detail(transaction_id, mode = 'sandbox')
       create_token(mode)
+      if mode == 'sandbox'
+        @gateway_base_url = 'https://sandbox.moncashbutton.digicelgroup.com/Moncash-middleware'
+      elsif mode == 'live'
+        @gateway_base_url = 'https://moncashbutton.digicelgroup.com/Moncash-middleware'
+      end
       uri = URI.parse("https://#{@base_url}#{@@get_payment_endpoint}")
       request = Net::HTTP::Post.new(uri)
       request.content_type = 'application/json'
       request['Accept'] = 'application/json'
       request['Authorization'] = "Bearer #{@token}"
-      request.body = "{ \" transactionId\": #{order_id}}"
+      request.body = JSON.dump({
+                                 'transactionId' => transaction_id
+                               })
       req_options = {
         use_ssl: uri.scheme == 'https'
       }
-
       response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
         http.request(request)
       end
