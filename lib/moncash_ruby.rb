@@ -67,9 +67,9 @@ module Moncash
     def get_payment_detail(transaction_id, mode = 'sandbox')
       create_token(mode)
       if mode == 'sandbox'
-        @gateway_base_url = 'https://sandbox.moncashbutton.digicelgroup.com/Moncash-middleware'
+        @base_url = 'sandbox.moncashbutton.digicelgroup.com'
       elsif mode == 'live'
-        @gateway_base_url = 'https://moncashbutton.digicelgroup.com/Moncash-middleware'
+        @base_url = 'moncashbutton.digicelgroup.com'
       end
       uri = URI.parse("https://#{@base_url}#{@@get_payment_endpoint}")
       request = Net::HTTP::Post.new(uri)
